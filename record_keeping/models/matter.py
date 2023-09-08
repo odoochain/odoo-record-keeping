@@ -181,7 +181,7 @@ class Matter(models.Model):
     def action_done(self):
         self.write(dict(state='done'))
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         if not 'description' in vals:
             vals['description'] = vals.get('name')

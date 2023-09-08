@@ -16,7 +16,7 @@ class DocumentMixin(models.AbstractModel):
         help='The record-keeping document id',
         ondelete='restrict',
         required=True,
-        string='Document',
+        string='Mixin Document',
         index=True
     )
     document_ref = fields.Reference(
@@ -56,7 +56,7 @@ class DocumentMixin(models.AbstractModel):
         models = self.env['ir.model'].search([('model', '=', 'rk.document')])
         return [(model.model, model.name) for model in models]
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         for field in ['classification_id', 'document_type_id']:
             if not field in vals:

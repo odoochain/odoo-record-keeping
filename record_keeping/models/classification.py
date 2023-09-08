@@ -38,6 +38,7 @@ class Classification(models.Model):
     )
     parent_path = fields.Char(
         index=True,
+        unaccent=False,
     )
     sequence = fields.Integer(
         string='Sequence',

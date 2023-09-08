@@ -116,7 +116,7 @@ class Document(models.Model):
             self.matter_id.document_no_next += 1
             self._compute_res_ref()
 
-    @api.model
+    @api.model_create_multi
     def _selection_target_model(self):
         models = self.env['ir.model'].search([])
         return [(model.model, model.name) for model in models]

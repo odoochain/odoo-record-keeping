@@ -28,7 +28,7 @@ class Attachment(models.Model):
 
         return vals
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         if not vals.get('matter_id'):
             vals = self._prepare_values(vals)
