@@ -29,10 +29,13 @@ class Attachment(models.Model):
         return vals
 
     @api.model_create_multi
-    def create(self, vals):
-        if not vals.get('matter_id'):
-            vals = self._prepare_values(vals)
-        return super().create(vals)
+    def create(self, vals_list):
+        attachments = super().create(vals_list)
+        for vals, attachment in zip(vals_list, attachments):
+            if not self._context.get('matter_id'):
+                attachment.sudo()._prepare_values(dict(vals, res_model=attachment.res_model, res_id=attachment.res_id))
+                # vals = self._prepare_values(vals)
+        return attachments
 
     def write(self, vals):
         for rec in self:

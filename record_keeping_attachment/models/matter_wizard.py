@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 class AttachmentMatterWizard(models.TransientModel):
     _name = "rk.wizard.attachment"
 
-    _inherit = ["rk.wizard"]
+    # _inherit = ["rk.wizard"]
 
     def _get_model(self):
         sale_order = self.env["ir.attachment"].browse(self.env.context.get('active_ids'))

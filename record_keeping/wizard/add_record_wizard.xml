@@ -12,7 +12,7 @@
                 </group>
                 <footer>
                     <button name="save_button" type="object" string="Save" class="btn-primary" />
-                    <button name="cancel_button" type="object" string="Cancel" class="btn btn-default" special="cancel" />
+<!--                    <button name="cancel_button" type="object" string="Cancel" class="btn btn-default" special="cancel" />-->
                 </footer>
             </form>
         </field>

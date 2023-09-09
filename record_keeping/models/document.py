@@ -4,7 +4,7 @@ from odoo import _, api, fields, models
 
 class Document(models.Model):
     _name = 'rk.document'
-    _description = 'Document'
+    _description = 'Recording Document'
     _inherit = ['mail.activity.mixin', 'mail.thread', 'rk.mixin']
 
     name = fields.Char(
@@ -121,7 +121,7 @@ class Document(models.Model):
         models = self.env['ir.model'].search([])
         return [(model.model, model.name) for model in models]
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         document = super().create(vals)
         document._next_document_no()

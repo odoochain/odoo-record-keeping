@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import _, api, fields, models
 import logging
+
 _logger = logging.getLogger(__name__)
 
 
@@ -40,7 +41,7 @@ class DocumentMixin(models.AbstractModel):
         return res
 
     def _get_document_link(self):
-        _logger.warning("_get_document_link"*100)
+        _logger.warning("_get_document_link" * 10)
         self.ensure_one()
         vals = dict(res_model=self._name, res_id=self.id)
         _logger.warning(f"{vals=}")
@@ -57,13 +58,28 @@ class DocumentMixin(models.AbstractModel):
         return [(model.model, model.name) for model in models]
 
     @api.model_create_multi
-    def create(self, vals):
-        for field in ['classification_id', 'document_type_id']:
-            if not field in vals:
-                vals[field] = self._get_default_param(field)
-        record = super().create(vals)
-        record._get_document_link()
-        return record
+    def create(self, vals_list):
+        if not vals_list:
+            return super().create(vals_list)
+        result = self.browse()
+        for vals in vals_list:
+            for field in ['classification_id', 'document_type_id']:
+                if field not in vals:
+                    vals[field] = self._get_default_param(field)
+        result |= super().create(vals_list)
+        result._get_document_link()
+        return result
+
+        # threads = super(DocumentMixin, self).create(vals_list)
+        # create_values_list = {}
+        # for thread, values in zip(threads, vals_list):
+        #     create_values = dict(values)
+        #     for field in ['classification_id', 'document_type_id']:
+        #         if not field in create_values:
+        #             create_values[field] = self._get_default_param(field)
+        #     create_values_list[thread.id] = create_values
+        #     threads._get_document_link()
+        # return threads
 
     def create_matter(self):
         self.ensure_one()
